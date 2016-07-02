@@ -7,7 +7,7 @@ API endpoint for posting a video for background image extraction
 }
 
 """
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -18,10 +18,9 @@ def upload_video(request):
 
     elif request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            for x in data:
-                print x
-        except KeyError:
-            HttpResponseBadRequest('Malformed json.')
+            print request.body
+            return HttpResponse(status=202)
+        except Exception:
+            return HttpResponseBadRequest('Malformed data.')
 
-    return HttpResponseBadRequest()
+    return HttpResponseNotAllowed('Only GET and POST allowed.')

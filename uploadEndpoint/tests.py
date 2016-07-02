@@ -13,11 +13,14 @@ class TestUploadEndpoint(unittest.TestCase):
 
     def test_only_GET_and_POST_accepted(self):
         response = requests.options(self.ENDPOINT_URL)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 405)
+        response = requests.put(self.ENDPOINT_URL)
+        self.assertEqual(response.status_code, 405)
 
-    def test_video_no_callback(self):
-        response = requests.post(self.ENDPOINT_URL, json={'file': 'somepath', 'callbackurl' : ''})
-        self.assertEqual(response.content,'')
+    def test_video_empty_callback(self):
+        files = {'file': open('testdata/38-20160416T131619.832823Z.mp4', 'rb')}
+        response = requests.post(self.ENDPOINT_URL, files=files)
+        self.assertEqual(response.status_code, 202)
 
 if __name__ == '__main__':
     unittest.main()
