@@ -4,6 +4,7 @@ import requests
 class TestUploadEndpoint(unittest.TestCase):
 
     ENDPOINT_URL = 'http://127.0.0.1:8000/uploadendpoint/'
+    #ENDPOINT_URL = 'http://backgroundimage-web.7mtct8epmu.us-west-2.elasticbeanstalk.com/uploadendpoint/'
 
 
     def test_endpoint_live(self):
