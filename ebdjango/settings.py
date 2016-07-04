@@ -75,16 +75,37 @@ WSGI_APPLICATION = 'ebdjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# Default
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'backgroundimage',
-        'USER': 'manpoozle',
-        'PASSWORD': 'somepasswordIcanshare',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
+
+# Local Postgres
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'backgroundimage',
+#         'USER': 'manpoozle',
+#         'PASSWORD': 'somepasswordIcanshare',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+# Remote Postgres
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'backgroundimage',
+#         'USER': 'manpoozle',
+#         'PASSWORD': 'somepasswordIcanshare',
+#         'HOST': 'aaja388mbgt2o5.cvlrpbuyidn3.us-west-2.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
