@@ -11,12 +11,11 @@ Supports:
         returns the job id
 
 """
-import os
+import json
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from models import Upload, Status
-from ebdjango import settings
 
 @csrf_exempt
 def upload_video(request):
@@ -24,46 +23,24 @@ def upload_video(request):
         return HttpResponse("Endpoint Live!")
 
     elif request.method == 'POST':
-        body = request.body # This is important! django will prematurely close the connection if the POST buffer is not consumed!
-        callback_url = None # for now
+        #try:
 
-        # Create and populate a new model object
-        upload = Upload(video_title=request.FILES['file'].name,
-                        video_file=request.FILES['file'],
-                        image_title=None,
-                        image_file=None,
-                        status=Status.video_recieved.value,
-                        callback_url=callback_url) # For now
+            #print request.POST
 
-        # Save the file corresponding to our new model object
-        save_uploaded_video(request.FILES['file'])
+            callback_url = ''  # for now
 
-        upload.save()
+            # Create and populate a new model object
+            upload = Upload(video_title=request.FILES['file'].name,
+                            video_file=request.FILES['file'],
+                            image_title='',
+                            image_file=None,
+                            status=Status.video_recieved.value,
+                            callback_url=callback_url)  # For now
 
-        try:
-            # print request.FILES
-            # print request.FILES.getlist('file')[0]
-            # if ('file' in request.FILES):
-            #     upload = Upload(video=('somename', request.FILES.getlist('file')[0]))
-            #     print type(upload.video)
-
-                # upload = Upload(video=request.FILES.getlist('file')[0],
-                #                 image=None,
-                #                 status=Status.video_recieved,
-                #                 callback_url=None)
+            upload.save()
 
             return HttpResponse(status=202)
-        except Exception:
-            return HttpResponseBadRequest('Malformed data.')
+        #except Exception:
+        #    return HttpResponseBadRequest('Malformed data.')
 
     return HttpResponseNotAllowed('Only GET and POST allowed.')
-
-
-def save_uploaded_video(file):
-
-    destinationDir = os.path.join(settings.BASE_DIR, 'videos')
-    destination = os.path.join(destinationDir, file.name)
-
-    with open(destination, 'wb+') as destination_file:
-        for chunk in file.chunks():
-            destination_file.write(chunk)
