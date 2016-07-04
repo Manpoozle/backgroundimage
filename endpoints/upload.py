@@ -7,25 +7,21 @@ Supports:
 
     POST
         file: <video>
-        callback_url: <url to be notified when processing is done> // Optional
         returns the job id
 
 """
-import json
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from models import Upload, Status
 
+
+
+
 @csrf_exempt
 def upload_video(request):
-    if request.method == 'GET':
-        return HttpResponse("Endpoint Live!")
-
-    elif request.method == 'POST':
-        #try:
-
-            #print request.POST
+    if request.method == 'POST':
+        try:
 
             callback_url = ''  # for now
 
@@ -39,8 +35,8 @@ def upload_video(request):
 
             upload.save()
 
-            return HttpResponse(status=202)
-        #except Exception:
-        #    return HttpResponseBadRequest('Malformed data.')
+            return HttpResponse(upload.id, status=202)
+        except Exception:
+            return HttpResponseBadRequest('Malformed data.')
 
-    return HttpResponseNotAllowed('Only GET and POST allowed.')
+    return HttpResponseNotAllowed('Only POST allowed.')

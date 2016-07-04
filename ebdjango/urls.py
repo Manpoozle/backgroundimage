@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from endpoints import upload, poll
 
 urlpatterns = [
-    url(r'^(?i)uploadEndpoint/', include('uploadEndpoint.urls')),
+    url(r'^(?i)uploadvideo/', upload.upload_video, name='uploadvideo'),
+    url(r'^(?i)poll/', poll.poll_for_image, name='poll'),
     url(r'^(?i)admin/', admin.site.urls),
+
 ]
